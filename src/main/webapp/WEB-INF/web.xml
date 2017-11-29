@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+		 http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">>
+
+    <display-name>App</display-name>
+    <description>App description</description>
+
+    <context-param>
+        <param-name>properties</param-name>
+        <param-value>/conf/app.properties</param-value>
+    </context-param>
+
+    <servlet>
+        <servlet-name>hello</servlet-name>
+        <servlet-class>gr.ntua.ece.softeng17b.HelloWorldServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>velocity</servlet-name>
+        <servlet-class>org.apache.velocity.tools.view.VelocityLayoutServlet</servlet-class>
+
+        <!--
+          Unless you plan to put your tools.xml and velocity.properties
+          under different folders or give them different names, then these
+          two init-params are unnecessary.  The
+          VelocityViewServlet will automatically look for these files in
+          the following locations.
+        <init-param>
+            <param-name>org.apache.velocity.toolbox</param-name>
+            <param-value>/WEB-INF/tools.xml</param-value>
+        </init-param>
+
+        <init-param>
+            <param-name>org.apache.velocity.properties</param-name>
+            <param-value>/WEB-INF/velocity.properties</param-value>
+        </init-param>
+        -->
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>hello</servlet-name>
+        <url-pattern>/hello.txt</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>velocity</servlet-name>
+        <url-pattern>*.vm</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>/static</url-pattern>
+    </servlet-mapping>
+    
+    <listener>
+        <listener-class>gr.ntua.ece.softeng17b.conf.Listener</listener-class>
+    </listener>
+
+</web-app>

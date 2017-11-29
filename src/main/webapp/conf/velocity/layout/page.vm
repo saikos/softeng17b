@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>$pageTitle</title>
+</head>
+
+<body>
+
+<div>
+    <img src="./static/pyrforos.svg" width="250">
+</div>
+
+$screen_content
+
+<footer>
+    <small>Using a common page layout</small>
+</footer>
+
+</body>
+</html>
