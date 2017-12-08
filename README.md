@@ -3,6 +3,11 @@ An example of a gradle-based Java web app.
 
 The example demonstrates the use of gradle for developing a Java web application that can be deployed to Servlet containers such as Tomcat, Jetty, etc.
 
+## Google Maps API Key
+You need to get an API Key for the Google Maps examples to function properly. 
+
+The API key should be placed into the ```src/main/webapp/conf/app.properties``` file.
+
 ## File Structure
 ```
 src

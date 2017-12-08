@@ -33,7 +33,7 @@
         <div>
         	<form method="get">
         		<input type="text" name="numbers" size="48" placeholder="Εισάγετε ακεραίους χωρισμένους με κόμμα">
-        		<button type="submit">Υπολογισμός</button>
+        		<button type="submit">Υπολογισμός kokolala</button>
     		</form>
     	</div>
 
