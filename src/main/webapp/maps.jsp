@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="UTF-8"%>
 <%@ page import="gr.ntua.ece.softeng17b.conf.*" %>
+<%@ page import="gr.ntua.ece.softeng17b.data.*" %>
+<%@ page import="java.util.*" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -37,6 +39,15 @@
                 </div>
             </div>
 
+
+            <div class="row mb-5">
+                <div class="col-sm">
+                    <h1>A map with multiple markers from the database</h1>
+
+                    <div id="map3" class="gmap"></div>
+                </div>
+            </div>
+
         </div>
 
 
@@ -48,6 +59,7 @@
 
     <script>
         function initMaps() {
+            //Map 1 (hard-coded access of configuration properties)
             var ece = {lat: <%=conf.getProperty("ece.lat")%>, lng: <%=conf.getProperty("ece.lng")%>};
             var map1 = new google.maps.Map(document.getElementById('map1'), {
                 zoom: 15,
@@ -59,6 +71,7 @@
                 map: map1
             });
 
+            //Map 2 (more extensible access of configuration properties)
             var locs = [];
             <%
                 String commaSeparatedLocations = conf.getProperty("locations");
@@ -82,6 +95,32 @@
                     position: loc,
                     title: loc.id,
                     map: map2
+                });
+            });
+
+            //Map 3 (load the locations from the database)
+            var dbLocs = [];
+            <%
+                List<Place> places = conf.getDataAccess().getAllPlaces();
+                for (Place place : places) {
+            %>
+                dbLocs.push({
+                    title: "<%=place.getName()%> - <%=place.getDescription()%>",
+                    lat: <%=place.getLatitude()%>,
+                    lng: <%=place.getLongitude()%>
+                });
+            <% } %>
+            
+            var map3 = new google.maps.Map(document.getElementById('map3'), {
+                zoom: 15,
+                center: dbLocs[0]
+            });
+
+            dbLocs.forEach(function(loc) {
+                new google.maps.Marker({
+                    position: loc,
+                    title: loc.title,
+                    map: map3
                 });
             });
         }

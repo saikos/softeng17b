@@ -20,11 +20,19 @@ repositories {
 }
 
 dependencies {
-    //compile "org.codehaus.groovy:groovy-all:2.4.10"       //for groovy development
-    compile "javax.servlet:javax.servlet-api:3.1.0"         //the Java servlet libraries
-    compile "org.apache.velocity:velocity-tools:2.0"        //velocity template engine tools
+    //compile "org.codehaus.groovy:groovy-all:2.4.10"        //for groovy development
+    compile "javax.servlet:javax.servlet-api:3.1.0"          //the Java servlet libraries
+    compile "org.apache.velocity:velocity-tools:2.0"         //velocity template engine tools
+    compile "org.apache.commons:commons-pool2:2.4.3"         //object pool
+    compile "org.apache.commons:commons-dbcp2:2.1.1"         //db connection pool
+    compile "org.springframework:spring-jdbc:5.0.2.RELEASE"  //spring JDBC template utility
+    
 
-    providedRuntime "javax.servlet:javax.servlet-api:3.1.0" //provided by the servlet container at runtime
+    providedRuntime "javax.servlet:javax.servlet-api:3.1.0"  //provided by the servlet container at runtime
+
+    runtime 'mysql:mysql-connector-java:5.1.16'              //the MySQL JDBC driver
+
+    gretty 'mysql:mysql-connector-java:5.1.16'               //make sure it is also available to the grety plugin
 }
 
 gretty {
