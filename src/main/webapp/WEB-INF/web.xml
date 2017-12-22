@@ -40,6 +40,23 @@
         -->
     </servlet>
 
+
+    <servlet>
+        <!-- Restlet adapter for servlets -->
+        <servlet-name>RestletAdapter</servlet-name>
+        <servlet-class>org.restlet.ext.servlet.ServerServlet</servlet-class>
+        <init-param>
+            <param-name>org.restlet.application</param-name>
+            <param-value>gr.ntua.ece.softeng17b.api.RestApi</param-value>
+        </init-param>
+    </servlet>
+
+    <!-- Map the Restlet Api to /api pattern -->
+    <servlet-mapping>
+        <servlet-name>RestletAdapter</servlet-name>
+        <url-pattern>/api/*</url-pattern>
+    </servlet-mapping>
+
     <servlet-mapping>
         <servlet-name>hello</servlet-name>
         <url-pattern>/hello.txt</url-pattern>

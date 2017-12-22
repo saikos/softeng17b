@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -23,7 +24,7 @@ public class DataAccess {
     public void setup(String driverClass, String url, String user, String pass) throws SQLException {
 
         //initialize the data source
-	BasicDataSource bds = new BasicDataSource();
+	    BasicDataSource bds = new BasicDataSource();
         bds.setDriverClassName(driverClass);
         bds.setUrl(url);
         bds.setMaxTotal(MAX_TOTAL_CONNECTIONS);
@@ -47,6 +48,17 @@ public class DataAccess {
 
     public List<Place> getAllPlaces() {
         return jdbcTemplate.query("select * from place", new PlaceRowMapper());
+    }
+
+    public Optional<Place> getPlace(Long id) {        
+        Long[] params = new Long[]{id};
+        List<Place> places = jdbcTemplate.query("select * from place where id = ?", params, new PlaceRowMapper());
+        if (places.size() == 1)  {
+            return Optional.of(places.get(0));
+        }
+        else {
+            return Optional.empty();
+        }        
     }
 
 
