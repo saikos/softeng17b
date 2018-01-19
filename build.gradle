@@ -1,6 +1,6 @@
 plugins {
-    id 'java'                               //for java-only project
-    //id 'groovy'                           //for mixed java/groovy project
+    //id 'java'                               //for java-only project
+    id 'groovy'                           //for mixed java/groovy project
     id 'war'                                //for genarating war files
     id 'org.akhikhl.gretty' version '2.0.0' //web app development plugin
 }
@@ -41,6 +41,8 @@ dependencies {
     runtime "org.restlet.jee:org.restlet.ext.servlet:2.3.12"   //Servlet adapter for Restlet framework
 
     gretty 'mysql:mysql-connector-java:5.1.16'                 //make sure it is also available to the grety plugin
+
+    testCompile "org.spockframework:spock-core:1.1-groovy-2.4"
 }
 
 gretty {

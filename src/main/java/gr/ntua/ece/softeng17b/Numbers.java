@@ -16,7 +16,15 @@ public class Numbers {
 		String[] array = string.split(",");
 		List<Long> numbers = Arrays.asList(array)
 		             			   .stream()
-		             			   .map(s -> Long.valueOf(s.trim()))
+		             			   .map(s -> {
+		             			   		try {
+		             			   			return Long.valueOf(s.trim());
+		             			   		}
+		             			   		catch(Exception e) {
+		             			   			return null;
+		             			   		}
+		             			   	})
+		             			   .filter(l -> l != null)
 		             			   .collect(Collectors.toList());
 		return new Numbers(numbers);
 	}
