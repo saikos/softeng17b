@@ -44,7 +44,7 @@ where:
 * PLID: The id of an existing place (the geo-point data will be retrieved from this).
 * T: the title of the event.
 * D: the description of the event.
-* SID: the id of an existing subject. Suppose that subjects are selected using a dropdown in the UI and thus a new subject table should be created in the database, yet the sample code does not include it.
+* SID: the id of an existing subject. Suppose that subjects are selected using a dropdown in the UI and thus a new subject table should be created in the database (yet the sample code does not include such functionality, you should add it).
 * NUM: the number of available tickets.
 
 #### Search for events with a Rest call
@@ -59,3 +59,7 @@ where:
 * D: the distance.
 
 None of the above is mandatory: if no search fields are defined, the code will return all the events that have tickets available.
+
+### Extend the code
+
+Use the sample code as an example of the required search functionality and extend it to suit your project's needs.
