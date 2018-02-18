@@ -2,16 +2,16 @@ package gr.ntua.ece.softeng17b.data;
 
 import javax.sql.DataSource;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
 
 public class DataAccess {
 
@@ -20,8 +20,9 @@ public class DataAccess {
     
     private DataSource dataSource;
     private JdbcTemplate jdbcTemplate;
+    private Elastic elastic;
 
-    public void setup(String driverClass, String url, String user, String pass) throws SQLException {
+    public void setup(String driverClass, String url, String user, String pass, Elastic elastic) throws SQLException {
 
         //initialize the data source
 	    BasicDataSource bds = new BasicDataSource();
@@ -43,6 +44,12 @@ public class DataAccess {
 
         //keep the dataSource for the low-level manual example to function (not actually required)
         dataSource = bds;
+
+        this.elastic = elastic;
+    }
+
+    public void shutdown() {
+        elastic.shutdown();
     }
 
 
@@ -59,6 +66,57 @@ public class DataAccess {
         else {
             return Optional.empty();
         }        
+    }
+
+    public Event createEvent(final Place place, final String title, final String description, final Long subject, int tickets) {
+
+        //Create the new event record using a prepared statement
+        PreparedStatementCreator psc = new PreparedStatementCreator() {
+            @Override
+            public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+                PreparedStatement ps = con.prepareStatement(
+                    "insert into event(place_id, title, description, subject, tickets) values(?, ?, ?, ?, ?)",
+                    Statement.RETURN_GENERATED_KEYS
+                );
+                ps.setLong(1, place.getId());
+                ps.setString(2, title);
+                ps.setString(3, description);
+                if (subject == null) {
+                    ps.setNull(4, Types.INTEGER);
+                }
+                else {
+                    ps.setLong(4, subject);
+                }
+                ps.setInt(5, tickets);
+                return ps;
+            }
+        };
+        GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
+        int cnt = jdbcTemplate.update(psc, keyHolder);
+
+        if (cnt == 1) {
+            //New row has been added
+            Event event = new Event(
+                keyHolder.getKey().longValue(), //the newly created event id
+                title,
+                description,
+                subject,
+                tickets,
+                place
+            );
+            //add it to elastic
+            elastic.add(event);
+
+            return event;
+
+        }
+        else {
+            throw new RuntimeException("Creation of event failed");
+        }
+    }
+
+    public SearchResults searchEvents(String text, Long subject, Long distanceInKm, Location fromLoc, int from, int count) {
+        return elastic.search(text, subject, true, distanceInKm, fromLoc, from, count);
     }
 
 

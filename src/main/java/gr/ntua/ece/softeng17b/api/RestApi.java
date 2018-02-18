@@ -16,6 +16,12 @@ public class RestApi extends Application {
 		//GET, PUT, DELETE
 		router.attach("/places/{id}", PlaceResource.class);
 
+		//POST
+		router.attach("/events", EventsResource.class);
+
+		//POST
+		router.attach("/search", SearchResource.class);
+
 		return router;
 	}
 
