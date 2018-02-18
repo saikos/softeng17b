@@ -62,4 +62,4 @@ None of the above is mandatory: if no search fields are defined, the code will r
 
 ### Extend the code
 
-Use the sample code as an example of the required search functionality and extend it to suit your project's needs.
+Use the sample code as an example of the required search functionality and extend it to suit your project's needs. For example, the buy ticket operation should perform the required SQL queries in a single transaction and then update the ES event accordingly (e.g. set the value of the hasTickets boolean field).
